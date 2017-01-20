@@ -1,0 +1,102 @@
+@Directive({
+  selector: "<%= name %>",
+  inputs: [
+    <%- arrayAndObjectProperties
+          .map(property => `"${property}"`)
+          .join(',\n    ') %>
+  ],
+  host: {
+    <%- arrayAndObjectProperties
+          .map(property => `'(${property}-changed)': '_setValueFromElement(${property}, $event)'`)
+          .join(',\n    ') %>
+  }
+})
+export class <%= nameCamelCase %>NotifyForDiffersDirective {
+  private _differs = {};
+  private _arrayDiffs = {};
+  private _element:any;
+
+  arrayAndObjectProperties = [
+    <%- arrayAndObjectProperties.map(property => `"${property}"`).join(',\n    ') %>
+  ];
+  
+  constructor(el: ElementRef, private _iterableDiffers: IterableDiffers, private _keyValueDiffers: KeyValueDiffers) {
+    this._element = el.nativeElement;
+  }
+
+  ngOnInit() {
+    var elm = (<any>this)._element;
+    // In case the element has a default value and the directive doesn't have any value set for a property,
+    // we need to make sure the element value is set to the directive.
+    this.arrayAndObjectProperties
+      .filter(property => elm[property] && !this[property])
+      .forEach(property => {
+        this[property] = elm[property];
+      });
+  }
+
+  _setValueFromElement(property: string, event: Event) {
+      // Properties in this directive need to be kept synced manually with the element properties.
+      // Don't use event.detail.value here because it might contain changes for a sub-property.
+      var target:any = event.target;
+      if (this[property] !== target[property]) {
+        this[property] = target[property];
+        (<any>this)._differs[property] = this._createDiffer(this[property]);
+      }
+  }
+
+  _createDiffer(value: string) {
+    var differ = Array.isArray(value) ? (<any>this)._iterableDiffers.find(value).create(null) : (<any>this)._keyValueDiffers.find(value || {}).create(null);
+
+    // initial diff with the current value to make sure the differ is synced
+    // and doesn't report any outdated changes on the next ngDoCheck call.
+    differ.diff(value);
+
+    return differ;
+  }
+
+  _handleArrayDiffs(property: string, diff: any) {
+    if (diff) {
+      diff.forEachRemovedItem((item: any) => this._notifyArray(property, item.previousIndex));
+      diff.forEachAddedItem((item: any) => this._notifyArray(property, item.currentIndex));
+      diff.forEachMovedItem((item: any) => this._notifyArray(property, item.currentIndex));
+    }
+  }
+
+  _handleObjectDiffs(property: string, diff: any) {
+    if (diff) {
+      var notify = (item: any) => this._notifyPath(property + '.' + item.key, item.currentValue);
+      diff.forEachRemovedItem(notify);
+      diff.forEachAddedItem(notify);
+      diff.forEachChangedItem(notify);
+    }
+  }
+
+  _notifyArray(property: string, index: number) {
+    this._notifyPath(property + '.' + index, this[property][index]);
+  }
+
+  _notifyPath(path: string, value: any) {
+      (<any>this)._element.notifyPath(path, value);
+  }
+
+  ngDoCheck() {
+    this.arrayAndObjectProperties.forEach(property => {
+      var elm = (<any>this)._element;
+      var _differs = (<any>this)._differs;
+      if (elm[property] !== this[property]) {
+        elm[property] = this[property];
+        _differs[property] = this._createDiffer(this[property]);
+      } else if (_differs[property]) {
+
+        // TODO: these differs won't pickup any changes in need properties like items[0].foo
+        var diff = _differs[property].diff(this[property]);
+        if (diff instanceof DefaultIterableDiffer) {
+          this._handleArrayDiffs(property, diff);
+        } else {
+          this._handleObjectDiffs(property, diff);
+        }
+      }
+    });
+  }
+}

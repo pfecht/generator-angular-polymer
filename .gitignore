@@ -1,0 +1,3 @@
+node_modules
+public/*
+generators/app/utils/*.js

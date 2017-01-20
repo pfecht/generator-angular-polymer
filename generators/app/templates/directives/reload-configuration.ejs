@@ -1,0 +1,15 @@
+@Directive({
+  selector: "<%= name %>"
+})
+export class <%= nameCamelCase %>ReloadConfigurationDirective {
+  constructor(el: ElementRef, zone: NgZone) {
+    el.nativeElement.async(() => {
+      if (el.nativeElement.isInitialized()) {
+        // Reload outside of Angular to prevent unnecessary ngDoCheck calls
+        zone.runOutsideAngular(() => {
+          el.nativeElement.reloadConfiguration();
+        });
+      }
+    });
+  }
+}

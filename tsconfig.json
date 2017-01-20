@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es6",
+        "noImplicitAny": false,
+        "sourceMap": false,
+        "experimentalDecorators": true
+    },
+    "files": [
+      "generators/app/utils/http-server.ts",
+      "generators/app/utils/headless-browser.ts",
+      "generators/app/utils/dom-operations.ts"
+    ],
+    "exclude": [
+      "node_modules",
+      "src/client"
+    ]
+}

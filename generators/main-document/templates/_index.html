@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <% htmlImports.forEach((filepath) => { -%>
+  <%- `<link rel="import" href="${filepath}"> `-%>
+  <%}); %>
+  </head>
+  <body></body>
+</html>

@@ -1,0 +1,17 @@
+@Directive({
+  selector: "<%= name %>"
+})
+export class <%= nameCamelCase %>ValidationDirective {
+  private _element:any;
+  constructor(el: ElementRef, private _injector: Injector) {
+    this._element = el.nativeElement;
+  };
+
+  ngDoCheck() {
+    const control = this._injector.get(FormControlName, null);
+
+    if (control) {
+      this._element.invalid = !control.pristine && !control.valid;
+    }
+  }
+}
