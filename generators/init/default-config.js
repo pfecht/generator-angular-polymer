@@ -16,7 +16,6 @@ const defaultConfig = {
     "paper-menu-grow-width-animation",
     "paper-menu-shrink-width-animation",
     "paper-menu-shrink-height-animation"
-  ],
-  "server-port" : 42800
+  ]
 }
 module.exports = defaultConfig;

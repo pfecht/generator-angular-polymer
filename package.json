@@ -2,7 +2,8 @@
   "name": "generator-angular-polymer",
   "version": "0.1.0",
   "scripts": {
-    "start": "tsc"
+    "start": "tsc",
+    "test": "./node_modules/mocha/bin/mocha"
   },
   "description": "",
   "files": [
@@ -15,8 +16,15 @@
     "@types/express": "^4.0.34",
     "express": "^4.14.0",
     "nightmare": "^2.9.1",
+    "portfinder": "^1.0.13",
+    "tmp": "0.0.31",
     "typescript": "^2.1.5",
     "typescript-formatter": "^4.0.1",
     "yeoman-generator": "^1.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0",
+    "yeoman-assert": "^3.0.0",
+    "yeoman-test": "^1.6.0"
   }
 }

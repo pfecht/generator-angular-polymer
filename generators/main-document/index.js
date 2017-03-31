@@ -3,6 +3,11 @@ const path = require('path');
 
 // Generator to create the server's index.html file based on the configuration.
 class MainDocumentGenerator extends Generator {
+  constructor(args, opts) {
+    super(args, opts);
+    this.argument('dir', { type: String, required: false });
+  }
+
   initializing() {
     this.htmlImports = this.config.get("html-imports");
     if(!this.htmlImports || this.htmlImports.length == 0) {
@@ -16,7 +21,7 @@ class MainDocumentGenerator extends Generator {
     let htmlImports = this.htmlImports.map(filePath => path.join('/imports', filePath));
     this.fs.copyTpl(
       this.templatePath('_index.html'),
-      this.templatePath('../../../public/index.html'),
+      path.join(this.options.dir, 'index.html'),
       {htmlImports : htmlImports}
     );
   }
@@ -26,7 +31,7 @@ class MainDocumentGenerator extends Generator {
     this.htmlImports.forEach(function(filePath) {
       if(!self.fs.exists(self.destinationPath(filePath)) && !self.fs.exists(filePath)) {
         self.env.error(`HTML-Import File with path ${filePath} does not exist.`);
-      }    
+      }
     });
   }
 };

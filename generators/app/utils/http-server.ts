@@ -5,14 +5,14 @@ import path = require('path');
 export class HttpServer {
   private server:any;
 
-  constructor(private port:number, private rootDir:string) {
+  constructor(private port:number, private rootDir:string, private importRootDir) {
     
   }
   
   start() {
     let app = express();
-    app.use(express.static(path.join(__dirname, '/../../../public/')));
-    app.use('/imports', express.static(this.rootDir));
+    app.use(express.static(this.rootDir));
+    app.use('/imports', express.static(this.importRootDir));
     this.server = http.createServer(app).listen(this.port);
   }
 

@@ -3,16 +3,21 @@ const HeadlessBrowser = require('./utils/headless-browser.js').HeadlessBrowser;
 const HttpServer = require('./utils/http-server.js').HttpServer;
 const retrieveAndClassifyPolymerElements = require('./utils/dom-operations').retrieveAndClassifyPolymerElements;
 const tsfmt = require('typescript-formatter');
+const portfinder = require('portfinder');
+const tmp = require('tmp');
 
 class AngularPolymerGenerator extends Generator {
   
   initializing() {
     this._handleInitalRun();
-    this.composeWith(require.resolve('../main-document'));
-    this.option('clean');
-    
+    this.tempDirObj = tmp.dirSync({'unsafeCleanup' : true});
     this.outDir = this.config.get('out-dir');
     this.excludedElements = this.config.get('exclude');
+    
+    this.composeWith(require.resolve('../main-document'), { 
+      dir: this.tempDirObj.name
+    });
+    this.option('clean');
   }
 
   writing() {
@@ -20,7 +25,7 @@ class AngularPolymerGenerator extends Generator {
       this._clearOutDir();
     }
     
-    this._fetchDomData().then((elements) => {
+    this._fetchPolymerElements().then((elements) => {
       let filteredElements = elements.filter(element => {
         return this.excludedElements.indexOf(element.name) < 0;
       });
@@ -29,16 +34,18 @@ class AngularPolymerGenerator extends Generator {
     });
   }
 
-  _fetchDomData() {
-    const server = new HttpServer(this.config.get('server-port'), this.destinationPath());
-    const url = `http://localhost:${this.config.get('server-port')}/`;
-
-    server.start();
-    return new HeadlessBrowser()
-      .processInsideBrowser(url, retrieveAndClassifyPolymerElements)
-      .then(data => {
-        server.close();
-        return data;
+  _fetchPolymerElements() {
+    return portfinder.getPortPromise()
+      .then(port => {
+        const server = new HttpServer(port, this.tempDirObj.name, this.destinationPath());
+        const url = `http://localhost:${port}/`;
+        server.start();
+        return new HeadlessBrowser()
+          .processInsideBrowser(url, retrieveAndClassifyPolymerElements)
+          .then(data => {
+            server.close();
+            return data;
+          });
       });
   }
 

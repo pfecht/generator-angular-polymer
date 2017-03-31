@@ -73,7 +73,7 @@ export class <%= nameCamelCase %>NotifyForDiffersDirective {
   }
 
   _notifyArray(property: string, index: number) {
-    this._notifyPath(property + '.' + index, this[property][index]);
+    this._element[property] = Object.assign([], this[property]);
   }
 
   _notifyPath(path: string, value: any) {
