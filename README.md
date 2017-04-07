@@ -2,7 +2,7 @@
 
 This project bridges the gap between **[Angular](https://angular.io)** and **[Polymer 1.x](https://www.polymer-project.org/)**. Therefore `generator-angular-polymer` is a [Yeoman generator](http://yeoman.io/) which creates directives to deal with issues between current Angular and Polymer versions.
 
-> The directives base on [angular-polymer](https://github.com/platosha/angular-polymer/).
+> Note: Parts of this project base on [angular-polymer](https://github.com/platosha/angular-polymer/).
 
 ## Getting Started
 1. Configure the generator for your project setup (see [Configuration](#configuration)).
@@ -18,7 +18,7 @@ This project is part of the Yeoman environment and requires a current Yeoman ver
 
 ```npm install -g yo```.
 
-For more informations about Yeoman see the [Yeoman documentation](http://yeoman.io/).
+For more informations about Yeoman see the [Yeoman documentation](http://yeoman.io/learning).
 
 Afterwards install the generator globally with:
 
@@ -35,9 +35,9 @@ The configruation file is located in the project's root directory and offers you
 
 | Parameter     | Function  |
 | ------------- |-------------|
-|html-imports| List of all paths to html documents that contain polymer-elements the directives should be created for. |
-| out-dir | Relative path to a directory in which the generatered directives will be stored.
-|excluded| List of all elements that should not be part of the generation process.
+|html-imports|List of all paths to html documents that contain polymer-elements the directives should be created for.|
+|out-dir|Relative path to a directory in which the generatered directives will be stored.|
+|excluded|List of all elements that should not be part of the generation process.|
 
 
 
@@ -47,9 +47,6 @@ It's helpful to use one file which includes the Polymer elements in the Angular 
 
 ### Use the global `POLYMER_ELEMENTS` constant
 It's possible but not to recommended to separately include polymer elements instead of using the global `POLYMER_ELEMENTS` constant. This constant encapsulates all necessary directives and gets recreated after every generator run. Because of this, there are no changes in Angular after adding or removing Polymer elements necessary.
-
-## Contributors
-none
 
 ## License
 Apache License 2.0
