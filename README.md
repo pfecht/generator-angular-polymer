@@ -1,59 +1,55 @@
 # Angular-Polymer Generator
 
-This project bridges the gap between **[Angular](angular.io)** and **[Polymer 1.x](https://www.polymer-project.org/)**. Therefore `generator-angular-polymer` is a [Yeoman](http://yeoman.io/) generator which creates directives to deal with issues between current Angular and Polymer versions.
+This project bridges the gap between **[Angular](https://angular.io)** and **[Polymer 1.x](https://www.polymer-project.org/)**. Therefore `generator-angular-polymer` is a [Yeoman generator](http://yeoman.io/) which creates directives to deal with issues between current Angular and Polymer versions.
 
+> The directives base on [angular-polymer](https://github.com/platosha/angular-polymer/).
 
-## Basic Usage
-> For the basic setup to use Polymer elements in Angular projects see TODO
-
-1. Follow the instuctions to configure the generator (see [Configuration](#Configuration)).
+## Getting Started
+1. Configure the generator for your project setup (see [Configuration](#configuration)).
 2. Run `yo angular-polymer` to create directives.
-3. Integrate the created directives in the existing Angular project.
-
-/*Therefore add the `POLYMER_ELEMENTS` constant to the  the index.ts file inside in the configuried output directory to.*/
+3. Integrate the created directives in the existing Angular project. They are stored within the configured out-dir.
 
 ## Demo App
-> TODO: Link Demo App project
-
-
-## Motivation and Goal
-The strengths of Angular seem to be obvious. It enables an enormous amount of possiblities to develop high interactive single page applications. However, even today the ui components of Anguar aren't usable in other frameworks. Because of this, Web Components as standard and Polymer as their most common library enable the development of native and re-usable ui elements. That's why the goal of `generator-angular-polymer` is the cooperative usage of Angular and Polymer in productive projects.
+The [demo project](https://github.com/pfecht/angular-polymer-demo) shows an example usage of the generator with Angular 4 and angular-cli.
 
 ## Installation
-This project is part of the Yeoman environment and requires therefore a current version of Yeoman installed. To install Yeoman run:
+This project is part of the Yeoman environment and requires a current Yeoman version installed. To install Yeoman run:
+
 
 ```npm install -g yo```.
 
-> TODO: Explain installation of yeoman as npm package
+For more informations about Yeoman see the [Yeoman documentation](http://yeoman.io/).
 
+Afterwards install the generator globally with:
+
+```npm install -g generator-angular-polymer ```
+
+or local with: 
+
+```npm install --save-dev generator-angular-polymer ```
 
 ## Configuration
-The generator needs to be configured with a standard Yeoman configuration file (`.yo-rc.json`). 
-To initially create a basic configuration, run the  `yo angular-polymer:init` command in the root path of the target project.
+The generator's configuration is stored within the Yeoman configuration file (`.yo-rc.json`). Run `yo angular-polymer:init` inside the root directory of your project which creates an initial configuration of the generator.
 
-The generated file is also located in the project root path and provides the following parameter:
+The configruation file is located in the project's root directory and offers you the following configuration parameters:
 
 | Parameter     | Function  |
 | ------------- |-------------|
 |html-imports| List of all paths to html documents that contain polymer-elements the directives should be created for. |
-| out-dir | Relative path to the directory inside the target project the generatered directives should be stored in.
-|excluded| List of all elements that should not be involved inside the generation process.
+| out-dir | Relative path to a directory in which the generatered directives will be stored.
+|excluded| List of all elements that should not be part of the generation process.
 
-## Tests
-> TODO: Add tests
+
 
 ## Best Practices
-
-
-### "Wrapper Files"
-It's recommanded to use the same file to add Polymer elements to the Angular application and to configure the generator. Instead of adding the file paths of polymer elements twice these wrapper files minimalize the configuration overhead.
+### Use "Wrapper Files"
+It's helpful to use one file which includes the Polymer elements in the Angular application and configures the generator, too. Since the file paths of polymer elements don't exist twice these wrapper files minimalize the configuration overhead.
 
 ### Use the global `POLYMER_ELEMENTS` constant
-It's possible but not to recommend to seperatly include polymer elements instead of using the global `POLYMER_ELEMENTS` constant. This constant encapsulates all necessary directives and gets recreated after every generator run. Because of that there aren't changes inside of Angular necessary after adding / removing elements.
+It's possible but not to recommended to separately include polymer elements instead of using the global `POLYMER_ELEMENTS` constant. This constant encapsulates all necessary directives and gets recreated after every generator run. Because of this, there are no changes in Angular after adding or removing Polymer elements necessary.
 
 ## Contributors
-Pascal Fecht (fecht.pascal@gmail.com)
+none
 
 ## License
-
 Apache License 2.0
