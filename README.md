@@ -20,7 +20,7 @@ This project is part of the Yeoman environment and requires a current Yeoman ver
 
 For more informations about Yeoman see the [Yeoman documentation](http://yeoman.io/learning).
 
-Afterwards install the generator globally with:
+Afterwards, install the generator globally with:
 
 ```npm install -g generator-angular-polymer ```
 
@@ -31,11 +31,11 @@ or local with:
 ## Configuration
 The generator's configuration is stored within the Yeoman configuration file (`.yo-rc.json`). Run `yo angular-polymer:init` inside the root directory of your project which creates an initial configuration of the generator.
 
-The configruation file is located in the project's root directory and offers you the following configuration parameters:
+The configuration file is located in the project's root directory and provides the following configuration parameters:
 
 | Parameter     | Function  |
 | ------------- |-------------|
-|html-imports|List of all paths to html documents that contain polymer-elements the directives should be created for.|
+|html-imports|List of all paths which contain Polymer elements.|
 |out-dir|Relative path to a directory in which the generatered directives will be stored.|
 |excluded|List of all elements that should not be part of the generation process.|
 
@@ -43,10 +43,10 @@ The configruation file is located in the project's root directory and offers you
 
 ## Best Practices
 ### Use "Wrapper Files"
-It's helpful to use one file which includes the Polymer elements in the Angular application and configures the generator, too. Since the file paths of polymer elements don't exist twice these wrapper files minimalize the configuration overhead.
+It's helpful to use one file which includes the Polymer elements into the Angular application and configures the generator, too. Since the file paths of Polymer elements don't exist twice, these wrapper files minimalize the configuration overhead.
 
 ### Use the global `POLYMER_ELEMENTS` constant
-It's possible but not to recommended to separately include polymer elements instead of using the global `POLYMER_ELEMENTS` constant. This constant encapsulates all necessary directives and gets recreated after every generator run. Because of this, there are no changes in Angular after adding or removing Polymer elements necessary.
+It's possible but not to recommended to separately include Polymer elements instead of using the global `POLYMER_ELEMENTS` constant. This constant encapsulates all necessary files and gets recreated with every generator run.
 
 ## License
 Apache License 2.0
